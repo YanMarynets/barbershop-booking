@@ -115,3 +115,10 @@ class Booking(models.Model):
         default=BookingStatus.CONFIRMED
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return (
+            f"{self.client.user} to barber "
+            f"{self.barber.user} on "
+            f"{self.start_at.strftime('%A')} "
+            f"at {self.start_at.time()}")
