@@ -1,6 +1,8 @@
 import datetime
 
 from  django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
 from booking import services
 from booking.models import BarberProfile, Service
@@ -46,4 +48,30 @@ class FourthStepBookingForm(forms.Form):
             (slot.strftime("%H:%M"), slot.strftime("%H:%M")) for slot in slots
         ]
         self.fields["time"].choices = formatted_choices
+
+
+
+class UserRegistrationForm(UserCreationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ("username", "first_name", "last_name", "email", "phone_number")
+
+    def save(self, commit = True):
+
+        username = self.cleaned_data["username"]
+        first_name = self.cleaned_data["first_name"]
+        last_name = self.cleaned_data["last_name"]
+        email = self.cleaned_data["email"]
+        phone_number = self.cleaned_data["phone_number"]
+        password = self.cleaned_data["password1"]
+
+        client_create = services.UserService()
+        return client_create.create_client(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone_number=phone_number,
+            password=password
+        )
 

@@ -228,6 +228,11 @@ mark, .mark {
   background-color: var(--bs-highlight-bg);
 }
 
+.navbar .logout-btn {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
 sub,
 sup {
   position: relative;

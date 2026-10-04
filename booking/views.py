@@ -2,10 +2,12 @@ import datetime
 
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views import generic
 from formtools.wizard.views import SessionWizardView
 
-from booking.forms import FirstStepBookingForm, SecondStepBookingForm, ThirdStepBookingForm, FourthStepBookingForm
+from booking.forms import FirstStepBookingForm, SecondStepBookingForm, ThirdStepBookingForm, FourthStepBookingForm, \
+    UserRegistrationForm
 from booking.models import BarberProfile, Service, Booking
 from booking.services import BookingService, InvalidBookingSlotError, SlotIsTakenError
 
@@ -114,6 +116,9 @@ class BookingCreateView(SessionWizardView):
         return self.render_goto_step("time")
 
 
-
+class RegisterView(generic.CreateView):
+    form_class = UserRegistrationForm
+    template_name = "registration/register.html"
+    success_url = reverse_lazy("login")
 
 

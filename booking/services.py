@@ -1,9 +1,12 @@
 import datetime
 from calendar import weekday
+from idlelib.format import get_comment_header
 
+from django.contrib.auth import get_user_model
+from django.db import transaction
 from flake8_variables_names.list_helpers import flat
 
-from booking.models import Booking, Schedule
+from booking.models import Booking, Schedule, ClientProfile
 
 
 class BookingSlotError(Exception):
@@ -108,3 +111,28 @@ class BookingService:
         return [
             date for date in dates if date.weekday() in working_days
         ]
+
+
+class UserService:
+    User = get_user_model()
+
+    def create_client(
+            self,
+            username,
+            email,
+            password,
+            first_name,
+            last_name,
+            phone_number
+    ):
+        with transaction.atomic():
+            user = self.User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                phone_number=phone_number
+            )
+            ClientProfile.objects.create(user=user)
+            return user
