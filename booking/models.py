@@ -22,10 +22,11 @@ class User(AbstractUser):
 class BarberProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="barber"
     )
     bio = models.TextField(null=True, blank=True)
-    photo = models.ImageField(null=True, blank=True)
+    photo = models.ImageField(upload_to="barbers/", blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
 
@@ -36,7 +37,8 @@ class BarberProfile(models.Model):
 class ClientProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="client"
     )
 
 
@@ -47,7 +49,7 @@ class ClientProfile(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration_minutes = models.PositiveIntegerField()
+    duration_minutes = models.PositiveIntegerField(default=60)
     is_active = models.BooleanField(default=True)
 
 
