@@ -8,10 +8,19 @@ from django.urls import reverse_lazy
 from django.views import generic, View
 from formtools.wizard.views import SessionWizardView
 
-from booking.forms import FirstStepBookingForm, SecondStepBookingForm, ThirdStepBookingForm, FourthStepBookingForm, \
-    UserRegistrationForm
+from booking.forms import (
+    FirstStepBookingForm,
+    SecondStepBookingForm,
+    ThirdStepBookingForm,
+    FourthStepBookingForm,
+    UserRegistrationForm,
+)
 from booking.models import BarberProfile, Service, Booking
-from booking.services import BookingService, InvalidBookingSlotError, SlotIsTakenError
+from booking.services import (
+    BookingService,
+    InvalidBookingSlotError,
+    SlotIsTakenError,
+)
 
 
 class HomeView(generic.TemplateView):
@@ -24,8 +33,6 @@ class HomeView(generic.TemplateView):
         context["services"] = Service.objects.filter(is_active=True)[:3]
 
         return context
-
-
 
 
 class BarberListView(generic.ListView):
@@ -51,18 +58,26 @@ class BookingListView(LoginRequiredMixin, generic.ListView):
     template_name = "booking/booking_list.html"
 
     def get_queryset(self):
-        return Booking.objects.filter(client=self.request.user.client)
+        return Booking.objects.filter(
+            client=self.request.user.client,
+            status=Booking.BookingStatus.CONFIRMED,
+        )
 
 
-class BarberBookingListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
+class BarberBookingListView(
+    LoginRequiredMixin, UserPassesTestMixin, generic.ListView
+):
     model = Booking
     template_name = "booking/barber_booking_list.html"
 
     def get_queryset(self):
-        return Booking.objects.filter(barber=self.request.user.barber).order_by("start_at")
+        return Booking.objects.filter(
+            barber=self.request.user.barber
+        ).order_by("start_at")
 
     def test_func(self):
         return self.request.user.role == get_user_model().UserRoles.BARBER
+
 
 class BookingCreateView(LoginRequiredMixin, SessionWizardView):
     template_name = "booking/booking_create.html"
@@ -73,8 +88,7 @@ class BookingCreateView(LoginRequiredMixin, SessionWizardView):
         ("time", FourthStepBookingForm),
     ]
 
-
-    def get_form_kwargs(self, step=''):
+    def get_form_kwargs(self, step=""):
         kwargs = super().get_form_kwargs(step)
 
         if step == "date":
@@ -99,9 +113,7 @@ class BookingCreateView(LoginRequiredMixin, SessionWizardView):
         date_data = all_cleaned_data["date"]
         time_data = all_cleaned_data["time"]
 
-        time_data = datetime.datetime.strptime(
-            time_data,"%H:%M"
-        ).time()
+        time_data = datetime.datetime.strptime(time_data, "%H:%M").time()
 
         start_at = datetime.datetime.combine(date_data, time_data)
         barber = all_cleaned_data["barber"]
@@ -112,19 +124,13 @@ class BookingCreateView(LoginRequiredMixin, SessionWizardView):
                 client=self.request.user.client,
                 barber=barber,
                 start_at=start_at,
-                service=service
+                service=service,
             )
             return redirect("booking:booking-list")
         except InvalidBookingSlotError:
-            messages.error(
-                self.request,
-                "This is invalid time slot"
-            )
+            messages.error(self.request, "This is invalid time slot")
         except SlotIsTakenError:
-            messages.error(
-                self.request,
-                "This time slot is already taken"
-            )
+            messages.error(self.request, "This time slot is already taken")
         return self.render_goto_step("time")
 
 
@@ -136,10 +142,7 @@ class RegisterView(generic.CreateView):
 
 class BookingCancellationView(LoginRequiredMixin, View):
     def post(self, request, pk):
-        booking = Booking.objects.get(
-            pk=pk,
-            client=request.user.client
-        )
+        booking = Booking.objects.get(pk=pk, client=request.user.client)
         booking.status = Booking.BookingStatus.CANCELED
         booking.save()
 
@@ -148,14 +151,11 @@ class BookingCancellationView(LoginRequiredMixin, View):
 
 class BookingStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, request, pk):
-        booking = Booking.objects.get(
-            pk=pk,
-            barber=request.user.barber
-        )
+        booking = Booking.objects.get(pk=pk, barber=request.user.barber)
         status = request.POST["status"]
         booking.status = status
         booking.save()
-        return  redirect("booking:barber-booking-list")
+        return redirect("booking:barber-booking-list")
 
     def test_func(self):
         return self.request.user.role == get_user_model().UserRoles.BARBER

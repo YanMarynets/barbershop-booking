@@ -1,6 +1,6 @@
 import datetime
 
-from  django import forms
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
@@ -9,30 +9,34 @@ from booking.models import BarberProfile, Service
 
 
 class FirstStepBookingForm(forms.Form):
-    barber = forms.ModelChoiceField(queryset=BarberProfile.objects.filter(is_active=True))
+    barber = forms.ModelChoiceField(
+        queryset=BarberProfile.objects.filter(is_active=True)
+    )
 
 
 class SecondStepBookingForm(forms.Form):
-    service = forms.ModelChoiceField(queryset=Service.objects.filter(is_active=True))
+    service = forms.ModelChoiceField(
+        queryset=Service.objects.filter(is_active=True)
+    )
 
 
 class ThirdStepBookingForm(forms.Form):
     date = forms.ChoiceField(choices=[])
 
-    def __init__(self,  *arg, **kwargs):
+    def __init__(self, *arg, **kwargs):
         barber = kwargs.pop("barber")
         super().__init__(*arg, **kwargs)
         booking_service = services.BookingService()
         dates = booking_service.get_barber_available_dates(barber)
         formatted_choices = [
-            (date.strftime("%Y-%m-%d"), date.strftime("%d.%m.%Y")) for date in dates
+            (date.strftime("%Y-%m-%d"), date.strftime("%d.%m.%Y"))
+            for date in dates
         ]
         self.fields["date"].choices = formatted_choices
 
     def clean_date(self):
         date = self.cleaned_data.get("date")
         return datetime.datetime.strptime(date, "%Y-%m-%d").date()
-
 
 
 class FourthStepBookingForm(forms.Form):
@@ -50,13 +54,18 @@ class FourthStepBookingForm(forms.Form):
         self.fields["time"].choices = formatted_choices
 
 
-
 class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ("username", "first_name", "last_name", "email", "phone_number")
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+        )
 
-    def save(self, commit = True):
+    def save(self, commit=True):
 
         username = self.cleaned_data["username"]
         first_name = self.cleaned_data["first_name"]
@@ -72,6 +81,5 @@ class UserRegistrationForm(UserCreationForm):
             last_name=last_name,
             email=email,
             phone_number=phone_number,
-            password=password
+            password=password,
         )
-

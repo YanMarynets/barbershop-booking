@@ -2,10 +2,17 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from booking.models import Schedule, ClientProfile, BarberProfile, Booking, Service
+from booking.models import (
+    Schedule,
+    ClientProfile,
+    BarberProfile,
+    Booking,
+    Service,
+)
 
 
 User = get_user_model()
+
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
@@ -16,10 +23,7 @@ class CustomUserAdmin(UserAdmin):
     )
     list_filter = ("role", "is_active", "is_staff")
 
-    search_fields = UserAdmin.search_fields + (
-        "phone_number",
-        "role"
-    )
+    search_fields = UserAdmin.search_fields + ("phone_number", "role")
 
     fieldsets = UserAdmin.fieldsets + (
         (

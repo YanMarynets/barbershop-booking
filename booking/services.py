@@ -1,10 +1,7 @@
 import datetime
-from calendar import weekday
-from idlelib.format import get_comment_header
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from flake8_variables_names.list_helpers import flat
 
 from booking.models import Booking, Schedule, ClientProfile
 
@@ -22,7 +19,6 @@ class InvalidBookingSlotError(BookingSlotError):
 
 
 class BookingService:
-
     @classmethod
     def create_booking(cls, barber, service, start_at, client):
         end_at = cls.get_end_at(
@@ -52,9 +48,7 @@ class BookingService:
 
     @staticmethod
     def get_end_at(start_at, service):
-        return start_at + datetime.timedelta(
-            minutes=service.duration_minutes
-        )
+        return start_at + datetime.timedelta(minutes=service.duration_minutes)
 
     @staticmethod
     def check_booking_time(start_at, barber):
@@ -66,9 +60,7 @@ class BookingService:
     @staticmethod
     def generate_booking_slots(barber, date):
         try:
-            schedule = barber.schedules.get(
-                weekday=date.weekday()
-            )
+            schedule = barber.schedules.get(weekday=date.weekday())
         except Schedule.DoesNotExist:
             return []
 
@@ -92,38 +84,29 @@ class BookingService:
 
     def get_available_slots(self, barber, date):
         all_slots = self.generate_booking_slots(barber, date)
-        return [slot for slot in all_slots if self.check_booking_time(slot, barber)]
+        return [
+            slot for slot in all_slots if self.check_booking_time(slot, barber)
+        ]
 
     @staticmethod
     def get_available_dates():
         today = datetime.date.today()
 
-        return [
-            today + datetime.timedelta(days=days)
-            for days in range(1, 15)
-        ]
+        return [today + datetime.timedelta(days=days) for days in range(1, 15)]
 
     def get_barber_available_dates(self, barber):
         dates = self.get_available_dates()
         working_days = barber.schedules.values_list("weekday", flat=True)
         print("DATES:", dates)
         print("WORKING DAYS:", list(working_days))
-        return [
-            date for date in dates if date.weekday() in working_days
-        ]
+        return [date for date in dates if date.weekday() in working_days]
 
 
 class UserService:
     User = get_user_model()
 
     def create_client(
-            self,
-            username,
-            email,
-            password,
-            first_name,
-            last_name,
-            phone_number
+        self, username, email, password, first_name, last_name, phone_number
     ):
         with transaction.atomic():
             user = self.User.objects.create_user(
@@ -132,7 +115,7 @@ class UserService:
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
-                phone_number=phone_number
+                phone_number=phone_number,
             )
             ClientProfile.objects.create(user=user)
             return user
