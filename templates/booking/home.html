@@ -10,7 +10,6 @@
             <p class="lead fw-normal text-white-50 mb-4">Professional barber services tailored to your style.</p>
             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
               <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'booking:booking-create' %}">Book appointment</a>
-              <a class="btn btn-outline-light btn-lg px-4" href="{% url 'booking:service-list' %}">Our services</a>
             </div>
           </div>
         </div>
@@ -71,7 +70,9 @@
             <div class="card-body p-5">
 
               {% if barber.photo %}
-                <img src="{{ barber.photo.url }}" class="card-img-top" alt="{{ barber.user.first_name }}">
+                <img src="{{ barber.photo.url }}" class="card-img-top" alt="{{ barber.user.get_full_name }}">
+              {% else %}
+                <img src="{% static 'assets/default-barber.jpeg' %}" class="card-img-top" alt="{{ barber.user.get_full_name }}">
               {% endif %}
               <h2 class="h5">{{ barber.user.first_name }}</h2>
               <p>{{ barber.bio }}</p>
