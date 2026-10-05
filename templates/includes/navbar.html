@@ -22,7 +22,11 @@
         </li>
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'booking:booking-list' %}">My bookings</a>
+            {% if user.role == "C" %}
+              <a class="nav-link" href="{% url 'booking:booking-list' %}">My bookings</a>
+            {% else %}
+              <a class="nav-link" href="{% url 'booking:barber-booking-list' %}">My bookings</a>
+            {% endif %}
           </li>
           <li class="nav-item">
             <form method="post" action="{% url 'logout' %}">

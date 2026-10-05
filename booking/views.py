@@ -1,7 +1,8 @@
 import datetime
 
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic, View
@@ -52,6 +53,16 @@ class BookingListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Booking.objects.filter(client=self.request.user.client)
 
+
+class BarberBookingListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
+    model = Booking
+    template_name = "booking/barber_booking_list.html"
+
+    def get_queryset(self):
+        return Booking.objects.filter(barber=self.request.user.barber).order_by("start_at")
+
+    def test_func(self):
+        return self.request.user.role == get_user_model().UserRoles.BARBER
 
 class BookingCreateView(LoginRequiredMixin, SessionWizardView):
     template_name = "booking/booking_create.html"
@@ -133,3 +144,18 @@ class BookingCancellationView(LoginRequiredMixin, View):
         booking.save()
 
         return redirect("booking:booking-list")
+
+
+class BookingStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def post(self, request, pk):
+        booking = Booking.objects.get(
+            pk=pk,
+            barber=request.user.barber
+        )
+        status = request.POST["status"]
+        booking.status = status
+        booking.save()
+        return  redirect("booking:barber-booking-list")
+
+    def test_func(self):
+        return self.request.user.role == get_user_model().UserRoles.BARBER
