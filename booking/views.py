@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -44,7 +45,7 @@ class ServiceListView(generic.ListView):
     context_object_name = "services"
 
 
-class BookingListView(generic.ListView):
+class BookingListView(LoginRequiredMixin, generic.ListView):
     model = Booking
     template_name = "booking/booking_list.html"
 
@@ -52,7 +53,7 @@ class BookingListView(generic.ListView):
         return Booking.objects.filter(client=self.request.user.client)
 
 
-class BookingCreateView(SessionWizardView):
+class BookingCreateView(LoginRequiredMixin, SessionWizardView):
     template_name = "booking/booking_create.html"
     form_list = [
         ("barber", FirstStepBookingForm),
