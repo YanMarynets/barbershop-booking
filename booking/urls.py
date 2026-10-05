@@ -1,7 +1,7 @@
 from django.urls import path
 
 from booking.views import HomeView, BarberListView, BarberDetailView, ServiceListView, BookingListView, \
-    BookingCreateView, RegisterView
+    BookingCreateView, RegisterView, BookingCancellationView
 
 app_name = "booking"
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path("barbers/<int:pk>/", BarberDetailView.as_view(), name="barber-detail"),
     path("services/", ServiceListView.as_view(), name="service-list"),
     path("bookings/", BookingListView.as_view(), name="booking-list"),
+    path("bookings/<int:pk>/cancel/", BookingCancellationView.as_view(), name="booking-cancel"),
     path("booking/create/", BookingCreateView.as_view(), name="booking-create"),
     path("register/", RegisterView.as_view(), name="register"),
 ]

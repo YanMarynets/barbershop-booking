@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from formtools.wizard.views import SessionWizardView
 
 from booking.forms import FirstStepBookingForm, SecondStepBookingForm, ThirdStepBookingForm, FourthStepBookingForm, \
@@ -123,3 +123,13 @@ class RegisterView(generic.CreateView):
     success_url = reverse_lazy("login")
 
 
+class BookingCancellationView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        booking = Booking.objects.get(
+            pk=pk,
+            client=request.user.client
+        )
+        booking.status = Booking.BookingStatus.CANCELED
+        booking.save()
+
+        return redirect("booking:booking-list")
