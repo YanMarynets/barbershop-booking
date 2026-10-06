@@ -1,0 +1,18 @@
+html {
+    min-height: 100%;
+    background: #f4f6f8;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(
+        135deg,
+        #f4f6f8 0%,
+        #dfe4ea 100%
+    );
+}
+.card {
+    border: none;
+    border-radius: 12px;
+}

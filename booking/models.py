@@ -1,6 +1,13 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models import UniqueConstraint
+
+phone_validator = RegexValidator(
+    regex=r"^0\d{9}$",
+    message="Phone number must contain exactly 10 digits.",
+)
 
 
 class User(AbstractUser):
@@ -8,11 +15,11 @@ class User(AbstractUser):
         BARBER = "B", "Barber"
         CLIENT = "C", "Client"
 
-    phone_number = models.CharField(max_length=10, unique=True)
+    phone_number = models.CharField(
+        max_length=10, unique=True, validators=[phone_validator]
+    )
     role = models.CharField(
-        max_length=1,
-        choices=UserRoles.choices,
-        default=UserRoles.CLIENT
+        max_length=1, choices=UserRoles.choices, default=UserRoles.CLIENT
     )
 
     def __str__(self):
@@ -22,12 +29,12 @@ class User(AbstractUser):
 class BarberProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="barber",
     )
     bio = models.TextField(null=True, blank=True)
-    photo = models.ImageField(null=True, blank=True)
+    photo = models.ImageField(upload_to="barbers/", blank=True, null=True)
     is_active = models.BooleanField(default=True)
-
 
     def __str__(self):
         return f"{self.user}"
@@ -36,9 +43,9 @@ class BarberProfile(models.Model):
 class ClientProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="client",
     )
-
 
     def __str__(self):
         return f"{self.user}"
@@ -47,9 +54,8 @@ class ClientProfile(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration_minutes = models.PositiveIntegerField()
+    duration_minutes = models.PositiveIntegerField(default=60)
     is_active = models.BooleanField(default=True)
-
 
     def __str__(self):
         return f"{self.name}"
@@ -65,15 +71,21 @@ class Schedule(models.Model):
         SATURDAY = 5, "Saturday"
         SUNDAY = 6, "Sunday"
 
-
     barber = models.ForeignKey(
-        BarberProfile,
-        on_delete=models.CASCADE,
-        related_name="schedules"
+        BarberProfile, on_delete=models.CASCADE, related_name="schedules"
     )
     weekday = models.IntegerField(choices=Weekday.choices)
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+    class Meta:
+        constraints = [  # noqa: RUF012
+            UniqueConstraint(
+                fields=["weekday", "barber"],
+                name="unique_schedule",
+            )
+        ]
+        ordering = ["weekday"]  # noqa: RUF012
 
 
     def __str__(self):
@@ -91,28 +103,21 @@ class Booking(models.Model):
         COMPLETED = "CP", "Completed"
         NO_SHOW = "NS", "No show"
 
-
     client = models.ForeignKey(
-        ClientProfile,
-        on_delete=models.CASCADE,
-        related_name="bookings"
+        ClientProfile, on_delete=models.CASCADE, related_name="bookings"
     )
     barber = models.ForeignKey(
-        BarberProfile,
-        on_delete=models.CASCADE,
-        related_name="bookings"
+        BarberProfile, on_delete=models.CASCADE, related_name="bookings"
     )
     service = models.ForeignKey(
-        Service,
-        on_delete=models.CASCADE,
-        related_name="bookings"
+        Service, on_delete=models.CASCADE, related_name="bookings"
     )
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()
     status = models.CharField(
         max_length=2,
         choices=BookingStatus.choices,
-        default=BookingStatus.CONFIRMED
+        default=BookingStatus.CONFIRMED,
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -121,4 +126,5 @@ class Booking(models.Model):
             f"{self.client.user} to barber "
             f"{self.barber.user} on "
             f"{self.start_at.strftime('%A')} "
-            f"at {self.start_at.time()}")
+            f"at {self.start_at.time()}"
+        )

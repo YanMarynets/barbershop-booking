@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <header class="bg-dark py-5">
+    <div class="container px-5">
+      <div class="row gx-5 align-items-center justify-content-center">
+        <div class="col-lg-8 col-xl-7 col-xxl-6">
+          <div class="my-5 text-center text-xl-start">
+            <h1 class="display-5 fw-bolder text-white mb-2">Look good. Feel good.</h1>
+            <p class="lead fw-normal text-white-50 mb-4">Professional barber services tailored to your style.</p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'booking:booking-create' %}">Book appointment</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="{% static 'assets/barbershop_main.jpeg' %}" alt="..." /></div>
+      </div>
+    </div>
+  </header>
+  <section class="py-5 bg-light">
+    <div class="container px-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bolder">Our Services</h2>
+        <p class="lead text-muted">
+          Professional services for your style
+        </p>
+      </div>
+
+      <div class="row gx-5">
+        {% for service in services %}
+        <div class="col-lg-4 mb-5">
+          <div class="card h-100">
+            <div class="card-body p-5">
+              <h2 class="h5">{{ service.name }}</h2>
+
+              <p class="mb-0">
+                ${{ service.price }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+
+
+      <div class="text-center">
+        <a
+          class="btn btn-primary"
+          href="{% url 'booking:service-list' %}"
+        >
+          View all services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-white">
+    <div class="container px-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bolder">Our specialists</h2>
+        <p class="lead text-muted">
+          Meet our professional barbers
+        </p>
+      </div>
+
+      <div class="row gx-5">
+        {% for barber in barbers %}
+        <div class="col-lg-4 mb-5">
+          <div class="card h-100">
+            <div class="card-body p-5">
+
+              {% if barber.photo %}
+                <img src="{{ barber.photo.url }}" class="card-img-top" alt="{{ barber.user.get_full_name }}">
+              {% else %}
+                <img src="{% static 'assets/default-barber.jpeg' %}" class="card-img-top" alt="{{ barber.user.get_full_name }}">
+              {% endif %}
+              <h2 class="h5">{{ barber.user.first_name }}</h2>
+              <p>{{ barber.bio }}</p>
+              <a class = "btn btn-outline-dark btn-sm" href="{% url 'booking:barber-detail' barber.pk %}">
+                View profile
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="text-center">
+        <a
+          class="btn btn-primary"
+          href="{% url 'booking:barber-list' %}"
+        >
+          View all barbers
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {% include "includes/footer.html" %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="container py-5">
+    <h1 class="text-center mb-5">Our Barbers</h1>
+
+    <div class="row g-4">
+      {% for barber in object_list %}
+        <div class="col-md-6 col-lg-4">
+          <a
+            href="{% url 'booking:barber-detail' barber.pk %}"
+            class="text-decoration-none text-dark"
+          >
+            <div class="card h-100 shadow-sm border-0">
+              {% if barber.photo %}
+                <img
+                  src="{{ barber.photo.url }}"
+                  class="card-img-top"
+                  alt="{{ barber.user.get_full_name }}"
+                  style="height: 300px; object-fit: cover;"
+                >
+              {% else %}
+                <img
+                  src="{% static 'assets/default-barber.jpeg' %}"
+                  class="card-img-top"
+                  alt="{{ barber.user.get_full_name }}"
+                  style="height: 300px; object-fit: cover;"
+                >
+              {% endif %}
+
+              <div class="card-body text-center p-4">
+                <h5 class="card-title mb-2">
+                  {{ barber.user.get_full_name|default:barber.user.username }}
+                </h5>
+
+                {% if barber.bio %}
+                  <p class="card-text text-muted">
+                    {{ barber.bio|truncatewords:15 }}
+                  </p>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center">
+          <p class="text-muted">No barbers available right now.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
