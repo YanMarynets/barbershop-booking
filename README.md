@@ -2,6 +2,22 @@
 
 A Django web application for booking appointments at a barbershop. Clients can browse barbers and services, choose an available date and time, create and manage their bookings, while barbers can manage their appointments and update booking statuses.
 
+## Live Demo
+
+**Website:** https://barbershop-booking-x48w.onrender.com/
+
+### Test Accounts
+
+#### Client
+
+```text
+Username: testuser1
+Password: TeSt##!!123
+```
+```
+Username: test_barber
+Password: TTT123456
+```
 ## Features
 
 - User registration and authentication
@@ -142,6 +158,8 @@ ruff check .
 - Django Crispy Forms — Form rendering
 - Pillow — Image handling
 - Ruff — Code formatting and linting
+- PostgreSQL — Production database
+- Cloudinary — Media storage
 
 ## Project Structure
 
@@ -201,18 +219,16 @@ Administrators can manage application data through the Django admin panel.
 
 ## Deployment
 
-This project is currently intended for local development and educational purposes.
+The project is deployed on Render.
 
-Before deploying to production, configure:
+Production configuration includes:
 
-- A production database
-- Production `SECRET_KEY`
+- PostgreSQL database
 - `DEBUG = False`
-- Allowed hosts
-- Static and media file serving
-- Production email backend
-- HTTPS
-- Appropriate security settings
+- Render `ALLOWED_HOSTS` configuration
+- Cloudinary for media storage
+- Static file collection with `collectstatic`
+- Gunicorn as the production WSGI server
 
 ## Author
 
