@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
-
+from django.db.models import UniqueConstraint
 
 phone_validator = RegexValidator(
     regex=r"^0\d{9}$",
@@ -77,6 +77,16 @@ class Schedule(models.Model):
     weekday = models.IntegerField(choices=Weekday.choices)
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+    class Meta:
+        constraints = [  # noqa: RUF012
+            UniqueConstraint(
+                fields=["weekday", "barber"],
+                name="unique_schedule",
+            )
+        ]
+        ordering = ["weekday"]  # noqa: RUF012
+
 
     def __str__(self):
         return (
