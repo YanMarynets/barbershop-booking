@@ -119,8 +119,6 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = "staticfiles/"
 
-MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 # Email
