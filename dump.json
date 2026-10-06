@@ -1,0 +1,475 @@
+[
+{
+    "model": "booking.user",
+    "pk": 1,
+    "fields": {
+        "password": "!",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "john",
+        "first_name": "John",
+        "last_name": "Smith",
+        "email": "john@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-04T10:00:00Z",
+        "phone_number": "0501234567",
+        "role": "B",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "booking.user",
+    "pk": 2,
+    "fields": {
+        "password": "!",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "mike",
+        "first_name": "Mike",
+        "last_name": "Johnson",
+        "email": "mike@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-04T10:00:00Z",
+        "phone_number": "0502345678",
+        "role": "B",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "booking.user",
+    "pk": 3,
+    "fields": {
+        "password": "!",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "alex",
+        "first_name": "Alex",
+        "last_name": "Brown",
+        "email": "alex@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-04T10:00:00Z",
+        "phone_number": "0503456789",
+        "role": "B",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "booking.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$lKGW3mhiOt8v0dp19o0zYi$gAdpVLYeCXEAPiUo5FjjQUjbAG/JTxjbRw8xf0k9LPo=",
+        "last_login": "2026-10-06T17:46:55.372Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@admin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-10-05T21:14:02.115Z",
+        "phone_number": "",
+        "role": "C",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "booking.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$QZLNU5pjHraxeAKI65AaEL$w+TgfMvDtLtEMwXDSPMbP2nacgESK1ulwQezLkh4QM4=",
+        "last_login": "2026-10-06T17:46:09Z",
+        "is_superuser": false,
+        "username": "test_barber",
+        "first_name": "Ryan",
+        "last_name": "Carter",
+        "email": "bobby@gmai.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-05T21:16:55Z",
+        "phone_number": "0672356789",
+        "role": "B",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "booking.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$FlNduRPQqT6Pvgnq6Vr7Y2$wYAO2FrlG/4T3h7Qh82jIS0mkdimZMs7IZZy0avsm4c=",
+        "last_login": "2026-10-06T17:36:55.612Z",
+        "is_superuser": false,
+        "username": "testuser1",
+        "first_name": "Test",
+        "last_name": "User",
+        "email": "test@user.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-06T17:36:32.239Z",
+        "phone_number": "0672356832",
+        "role": "C",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "booking.barberprofile",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "bio": "Experienced barber specializing in modern haircuts.",
+        "photo": "barbers/Gemini_Generated_Image_37fh5d37fh5d37fh_WkZJHpJ.jpeg",
+        "is_active": true
+    }
+},
+{
+    "model": "booking.barberprofile",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "bio": "Barber focused on classic cuts and beard styling.",
+        "photo": "barbers/Gemini_Generated_Image_4zyxgu4zyxgu4zyx_0MmX0Oc.jpeg",
+        "is_active": true
+    }
+},
+{
+    "model": "booking.barberprofile",
+    "pk": 3,
+    "fields": {
+        "user": 3,
+        "bio": "Specialist in modern styles and men's grooming.",
+        "photo": "barbers/Gemini_Generated_Image_pr6177pr6177pr61_GjcYGVC.jpeg",
+        "is_active": true
+    }
+},
+{
+    "model": "booking.barberprofile",
+    "pk": 4,
+    "fields": {
+        "user": 5,
+        "bio": "Professional barber with more than 15 years of experience.",
+        "photo": "barbers/Gemini_Generated_Image_gjam2gjam2gjam2g.jpeg",
+        "is_active": true
+    }
+},
+{
+    "model": "booking.clientprofile",
+    "pk": 1,
+    "fields": {
+        "user": 4
+    }
+},
+{
+    "model": "booking.clientprofile",
+    "pk": 2,
+    "fields": {
+        "user": 6
+    }
+},
+{
+    "model": "booking.service",
+    "pk": 1,
+    "fields": {
+        "name": "Classic Haircut",
+        "price": "20.00",
+        "duration_minutes": 60,
+        "is_active": true
+    }
+},
+{
+    "model": "booking.service",
+    "pk": 2,
+    "fields": {
+        "name": "Beard Trim",
+        "price": "15.00",
+        "duration_minutes": 30,
+        "is_active": true
+    }
+},
+{
+    "model": "booking.service",
+    "pk": 3,
+    "fields": {
+        "name": "Hair & Beard",
+        "price": "30.00",
+        "duration_minutes": 60,
+        "is_active": true
+    }
+},
+{
+    "model": "booking.service",
+    "pk": 4,
+    "fields": {
+        "name": "Kids Haircut",
+        "price": "15.00",
+        "duration_minutes": 60,
+        "is_active": true
+    }
+},
+{
+    "model": "booking.service",
+    "pk": 5,
+    "fields": {
+        "name": "One-Guard Haircut",
+        "price": "15.00",
+        "duration_minutes": 30,
+        "is_active": true
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 1,
+    "fields": {
+        "barber": 4,
+        "weekday": 4,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 2,
+    "fields": {
+        "barber": 4,
+        "weekday": 6,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 3,
+    "fields": {
+        "barber": 1,
+        "weekday": 2,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 4,
+    "fields": {
+        "barber": 2,
+        "weekday": 3,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 5,
+    "fields": {
+        "barber": 2,
+        "weekday": 4,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 6,
+    "fields": {
+        "barber": 2,
+        "weekday": 5,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 7,
+    "fields": {
+        "barber": 1,
+        "weekday": 0,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 8,
+    "fields": {
+        "barber": 3,
+        "weekday": 0,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 9,
+    "fields": {
+        "barber": 3,
+        "weekday": 1,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 10,
+    "fields": {
+        "barber": 3,
+        "weekday": 2,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 11,
+    "fields": {
+        "barber": 1,
+        "weekday": 4,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 12,
+    "fields": {
+        "barber": 1,
+        "weekday": 5,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 13,
+    "fields": {
+        "barber": 2,
+        "weekday": 6,
+        "start_time": "09:00:00",
+        "end_time": "14:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 14,
+    "fields": {
+        "barber": 2,
+        "weekday": 2,
+        "start_time": "09:00:00",
+        "end_time": "18:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 15,
+    "fields": {
+        "barber": 4,
+        "weekday": 0,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 16,
+    "fields": {
+        "barber": 4,
+        "weekday": 1,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 17,
+    "fields": {
+        "barber": 4,
+        "weekday": 2,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 18,
+    "fields": {
+        "barber": 4,
+        "weekday": 3,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 19,
+    "fields": {
+        "barber": 3,
+        "weekday": 4,
+        "start_time": "12:00:00",
+        "end_time": "20:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 20,
+    "fields": {
+        "barber": 3,
+        "weekday": 3,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.schedule",
+    "pk": 21,
+    "fields": {
+        "barber": 1,
+        "weekday": 1,
+        "start_time": "09:00:00",
+        "end_time": "17:00:00"
+    }
+},
+{
+    "model": "booking.booking",
+    "pk": 1,
+    "fields": {
+        "client": 1,
+        "barber": 4,
+        "service": 3,
+        "start_at": "2026-10-09T09:00:00Z",
+        "end_at": "2026-10-09T10:00:00Z",
+        "status": "NS",
+        "created_at": "2026-10-05T21:37:07.256Z"
+    }
+},
+{
+    "model": "booking.booking",
+    "pk": 2,
+    "fields": {
+        "client": 1,
+        "barber": 4,
+        "service": 3,
+        "start_at": "2026-10-18T16:00:00Z",
+        "end_at": "2026-10-18T17:00:00Z",
+        "status": "CF",
+        "created_at": "2026-10-05T21:38:01.876Z"
+    }
+},
+{
+    "model": "booking.booking",
+    "pk": 3,
+    "fields": {
+        "client": 1,
+        "barber": 1,
+        "service": 5,
+        "start_at": "2026-10-20T16:00:00Z",
+        "end_at": "2026-10-20T16:30:00Z",
+        "status": "CF",
+        "created_at": "2026-10-06T17:33:23.444Z"
+    }
+}
+]
